@@ -98,10 +98,19 @@ def update(id):
 
         db.session.commit()
         return wishlist_schema.jsonify(one_wish)
-    except Exception as e:
-        # return 'Wish does not exist in db'
-        print(e)
+    except :
+        return 'Wish does not exist in db'
 
+
+@app.route('/wishes/<id>',methods=['DELETE'])
+def destroy(id):
+    try:
+        one_wish = Wishlist.query.get_or_404(id)
+        db.session.delete(one_wish)
+        db.session.commit()
+        return 'Item deleted '
+    except:
+        return 'There was an problem deleting an item'
 
 if __name__ == '__main__':
     app.run(debug=True)
